@@ -6,6 +6,7 @@ git clone https://$github/vernesong/OpenClash package/new/luci-app-openclash
 git clone https://$github/tty228/luci-app-wechatpush package/new/luci-app-wechatpush
 
 
+mkdir -p files/usr/sbin
 curl -skLo files/etc/init.d/tailscale $mirror/openwrt/files/etc/init.d/tailscale
 # https://pkgs.tailscale.com/stable
 if [ "$platform" = "rk3568" ]; then
