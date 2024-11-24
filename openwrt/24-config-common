@@ -336,4 +336,6 @@ CONFIG_PACKAGE_luci-app-openclash=y
 ### wechatpush
 CONFIG_PACKAGE_luci-app-wechatpush=y
 ### tailscale
-#CONFIG_PACKAGE_tailscale=y
+CONFIG_PACKAGE_tailscale=y
+### udpxy
+CONFIG_PACKAGE_udpxy=y
