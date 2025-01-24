@@ -402,6 +402,7 @@ else
     sed -i "/BUILD_DATE/d" package/base-files/files/usr/lib/os-release
     sed -i "/BUILD_ID/aBUILD_DATE=\"$CURRENT_DATE\"" package/base-files/files/usr/lib/os-release
     make -j$cores IGNORE_ERRORS="n m"
+    make package/network/utils/xdp-tools V=s || true
 fi
 
 # Compile time
