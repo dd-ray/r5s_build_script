@@ -344,7 +344,8 @@ CONFIG_PACKAGE_luci-app-wechatpush=y
 CONFIG_PACKAGE_rclone=y
 ### udpxy
 CONFIG_PACKAGE_luci-app-udpxy=y
-
+### mihomo
+CONFIG_PACKAGE_luci-app-mihomo=y
 ### prometheus-node-exporter
 CONFIG_PACKAGE_prometheus-node-exporter-lua=y
 CONFIG_PACKAGE_prometheus-node-exporter-lua-hwmon=y
