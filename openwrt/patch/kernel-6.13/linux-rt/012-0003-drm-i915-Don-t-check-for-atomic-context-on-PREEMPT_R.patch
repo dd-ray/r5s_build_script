@@ -21,12 +21,12 @@ Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
 --- a/drivers/gpu/drm/i915/i915_utils.h
 +++ b/drivers/gpu/drm/i915/i915_utils.h
-@@ -269,8 +269,13 @@ wait_remaining_ms_from_jiffies(unsigned
+@@ -269,8 +269,13 @@
  						   (Wmax))
  #define wait_for(COND, MS)		_wait_for((COND), (MS) * 1000, 10, 1000)
- 
+
 -/* If CONFIG_PREEMPT_COUNT is disabled, in_atomic() always reports false. */
--#if defined(CONFIG_DRM_I915_DEBUG) && defined(CONFIG_PREEMPT_COUNT)
+-#if IS_ENABLED(CONFIG_DRM_I915_DEBUG) && IS_ENABLED(CONFIG_PREEMPT_COUNT)
 +/*
 + * If CONFIG_PREEMPT_COUNT is disabled, in_atomic() always reports false.
 + * On PREEMPT_RT the context isn't becoming atomic because it is used in an
