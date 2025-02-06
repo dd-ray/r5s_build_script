@@ -45,7 +45,7 @@ grep HASH include/kernel-6.13 | awk -F'HASH-' '{print $2}' | awk '{print $1}' | 
 # kernel generic patches
 curl -s $mirror/openwrt/patch/kernel-6.13/openwrt/linux-6.13-target-linux-generic.patch | patch -p1
 local_kernel_version=$(sed -n 's/^LINUX_KERNEL_HASH-\([0-9.]\+\) = .*/\1/p' include/kernel-6.13)
-release_kernel_version=$(curl -sL https://raw.githubusercontent.com//jianyun8023/r5s_build_script/master/tags/kernel-6.13 | sed -n 's/^LINUX_KERNEL_HASH-\([0-9.]\+\) = .*/\1/p')
+release_kernel_version=$(curl -sL $mirror/tags/kernel-6.13 | sed -n 's/^LINUX_KERNEL_HASH-\([0-9.]\+\) = .*/\1/p')
 if [ "$local_kernel_version" = "$release_kernel_version" ] && [ -z "$git_password" ] && [ "$(whoami)" != "sbwml" ]; then
     git clone https://$github/jianyun8023/target_linux_generic -b openwrt-24.10 target/linux/generic-6.13 --depth=1
 else
