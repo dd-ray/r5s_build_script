@@ -613,10 +613,26 @@ endef
 
 $(eval $(call KernelPackage,drm-imx-ldb))
 
+define KernelPackage/drm-client-lib
+  SUBMENU:=$(VIDEO_MENU)
+  TITLE:=Generic MIPI DBI LCD panel
+  DEPENDS:=+kmod-drm-dma-helper
+  KCONFIG:=CONFIG_DRM_CLIENT_LIB
+  FILES:= \
+	$(LINUX_DIR)/drivers/gpu/drm/drm_client_lib.ko
+  AUTOLOAD:=$(call AutoProbe,drm-client-lib)
+endef
+
+define KernelPackage/drm-client-lib/description
+  Drm Client Lib
+endef
+
+$(eval $(call KernelPackage,drm-client-lib))
+
 define KernelPackage/drm-panel-mipi-dbi
   SUBMENU:=$(VIDEO_MENU)
   TITLE:=Generic MIPI DBI LCD panel
-  DEPENDS:=+kmod-drm-mipi-dbi +kmod-drm-dma-helper
+  DEPENDS:=+kmod-drm-mipi-dbi +kmod-drm-dma-helper +LINUX_6_13:kmod-drm-client-lib
   KCONFIG:=CONFIG_DRM_PANEL_MIPI_DBI \
 	CONFIG_DRM_FBDEV_EMULATION=y \
 	CONFIG_DRM_FBDEV_OVERALLOC=100

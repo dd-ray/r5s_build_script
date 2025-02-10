@@ -208,7 +208,7 @@ $(eval $(call KernelPackage,iio-dht11))
 
 define KernelPackage/iio-bme680
   TITLE:=BME680 gas/humidity/pressure/temperature sensor
-  DEPENDS:=+kmod-regmap-core
+  DEPENDS:=+kmod-regmap-core +LINUX_6_13:kmod-industrialio-triggered-buffer
   KCONFIG:=CONFIG_BME680
   FILES:=$(LINUX_DIR)/drivers/iio/chemical/bme680_core.ko
   $(call AddDepends/iio)
@@ -252,7 +252,7 @@ $(eval $(call KernelPackage,iio-bme680-spi))
 
 define KernelPackage/iio-bmp280
   TITLE:=BMP180/BMP280/BME280 pressure/temperatur sensor
-  DEPENDS:=+kmod-regmap-core +LINUX_6_12:kmod-industrialio-triggered-buffer
+  DEPENDS:=+kmod-regmap-core +LINUX_6_12:kmod-industrialio-triggered-buffer +LINUX_6_13:kmod-industrialio-triggered-buffer
   KCONFIG:=CONFIG_BMP280
   FILES:=$(LINUX_DIR)/drivers/iio/pressure/bmp280.ko
   $(call AddDepends/iio)
