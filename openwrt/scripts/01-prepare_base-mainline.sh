@@ -183,7 +183,7 @@ git clone https://$gitea/sbwml/package_kernel_mac80211 package/kernel/mac80211 -
 # ath10k-ct
 rm -rf package/kernel/ath10k-ct
 git clone https://$github/sbwml/package_kernel_ath10k-ct package/kernel/ath10k-ct -b v6.11
-
+curl -s $mirror/openwrt/patch/packages-patches/ath10k/990-ath10k-fix-for-6.13.patch > package/kernel/ath10k-ct/patches/990-ath10k-fix-for-6.13.patch
 # kernel patch
 # btf: silence btf module warning messages
 curl -s $mirror/openwrt/patch/kernel-6.13/btf/990-btf-silence-btf-module-warning-messages.patch > target/linux/generic/hack-6.13/990-btf-silence-btf-module-warning-messages.patch
