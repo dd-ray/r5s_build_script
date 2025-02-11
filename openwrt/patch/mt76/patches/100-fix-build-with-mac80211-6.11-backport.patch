@@ -1,14 +1,3 @@
---- a/mac80211.c
-+++ b/mac80211.c
-@@ -613,7 +613,7 @@ int mt76_create_page_pool(struct mt76_de
- {
- 	struct page_pool_params pp_params = {
- 		.order = 0,
--		.flags = PP_FLAG_PAGE_FRAG,
-+		.flags = 0,
- 		.nid = NUMA_NO_NODE,
- 		.dev = dev->dma_dev,
- 	};
 --- a/mt7603/soc.c
 +++ b/mt7603/soc.c
 @@ -52,15 +52,12 @@ error:
@@ -28,15 +17,6 @@
  }
  
  static const struct of_device_id of_wmac_match[] = {
-@@ -74,7 +71,7 @@ MODULE_FIRMWARE(MT7628_FIRMWARE_E2);
- 
- struct platform_driver mt76_wmac_driver = {
- 	.probe		= mt76_wmac_probe,
--	.remove		= mt76_wmac_remove,
-+	.remove_new	= mt76_wmac_remove,
- 	.driver = {
- 		.name = "mt76_wmac",
- 		.of_match_table = of_wmac_match,
 --- a/mt7615/mt7615_trace.h
 +++ b/mt7615/mt7615_trace.h
 @@ -14,7 +14,7 @@
@@ -65,15 +45,6 @@
  }
  
  static const struct of_device_id mt7622_wmac_of_match[] = {
-@@ -65,7 +63,7 @@ struct platform_driver mt7622_wmac_drive
- 		.of_match_table = mt7622_wmac_of_match,
- 	},
- 	.probe = mt7622_wmac_probe,
--	.remove = mt7622_wmac_remove,
-+	.remove_new = mt7622_wmac_remove,
- };
- 
- MODULE_FIRMWARE(MT7622_FIRMWARE_N9);
 --- a/mt76x02_trace.h
 +++ b/mt76x02_trace.h
 @@ -14,7 +14,7 @@

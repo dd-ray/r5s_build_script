@@ -172,7 +172,7 @@ git clone https://$github/sbwml/package_firmware_linux-firmware package/firmware
 mkdir -p package/kernel/mt76/patches
 curl -s $mirror/openwrt/patch/mt76/patches/100-fix-build-with-mac80211-6.11-backport.patch > package/kernel/mt76/patches/100-fix-build-with-mac80211-6.11-backport.patch
 curl -s $mirror/openwrt/patch/mt76/patches/101-fix-build-with-linux-6.12rc2.patch > package/kernel/mt76/patches/101-fix-build-with-linux-6.12rc2.patch
-
+curl -s $mirror/openwrt/patch/mt76/patches/102-fix-build-with-linux-6.13.patch > package/kernel/mt76/patches/102-fix-build-with-linux-6.13.patch
 # wireless-regdb
 curl -s $mirror/openwrt/patch/openwrt-6.x/500-world-regd-5GHz.patch > package/firmware/wireless-regdb/patches/500-world-regd-5GHz.patch
 
