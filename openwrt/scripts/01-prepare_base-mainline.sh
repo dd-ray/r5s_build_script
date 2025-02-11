@@ -44,6 +44,8 @@ grep HASH include/kernel-6.13 | awk -F'HASH-' '{print $2}' | awk '{print $1}' | 
 
 # kernel generic patches
 curl -s $mirror/openwrt/patch/kernel-6.13/openwrt/linux-6.13-target-linux-generic.patch | patch -p1
+# Fix the loss of module.symvers
+curl -s $mirror/openwrt/patch/kernel-6.13/openwrt/fix-openwrt-kmod-module-symvers.patch | patch -p1
 local_kernel_version=$(sed -n 's/^LINUX_KERNEL_HASH-\([0-9.]\+\) = .*/\1/p' include/kernel-6.13)
 release_kernel_version=$(curl -sL $mirror/tags/kernel-6.13 | sed -n 's/^LINUX_KERNEL_HASH-\([0-9.]\+\) = .*/\1/p')
 if [ "$local_kernel_version" = "$release_kernel_version" ] && [ -z "$git_password" ] && [ "$(whoami)" != "sbwml" ]; then
