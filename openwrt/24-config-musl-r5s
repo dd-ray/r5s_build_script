@@ -26,5 +26,5 @@ CONFIG_COREMARK_NUMBER_OF_THREADS=6
 # CONFIG_KERNEL_KALLSYMS is not set
 
 ### Video Support
-CONFIG_PACKAGE_kmod-drm-rockchip=y
+CONFIG_PACKAGE_kmod-drm-rockchip=n
 CONFIG_PACKAGE_kmod-drm-panfrost=y

@@ -293,7 +293,7 @@ define KernelPackage/drm
   SUBMENU:=$(VIDEO_MENU)
   TITLE:=Direct Rendering Manager (DRM) support
   HIDDEN:=1
-  DEPENDS:=+kmod-dma-buf +kmod-i2c-core +PACKAGE_kmod-backlight:kmod-backlight \
+  DEPENDS:=+kmod-dma-buf +kmod-i2c-core +kmod-backlight \
 	+kmod-fb
   KCONFIG:=CONFIG_DRM
   FILES:= \
