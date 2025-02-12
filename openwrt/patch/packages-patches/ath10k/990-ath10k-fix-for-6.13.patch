@@ -10,3 +10,13 @@
  	.offset_tsf			= ath10k_offset_tsf,
  	.get_tsf			= ath10k_get_tsf,
  	.ampdu_action			= ath10k_ampdu_action,
+--- a/ath10k-6.10/ahb.c
++++ b/ath10k-6.10/ahb.c
+@@ -843,6 +843,6 @@
+ 	},
+ 	.probe  = ath10k_ahb_probe,
+-	.remove_new = ath10k_ahb_remove,
++	.remove = ath10k_ahb_remove,
+ };
+ 
+ int ath10k_ahb_init(void)
