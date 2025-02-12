@@ -14,3 +14,14 @@
  	.sta_rc_update = mt7996_sta_rc_update,
 +#endif
  	.set_key = mt7996_set_key,
+--- a/mac80211.c
++++ b/mac80211.c
+@@ -613,7 +613,7 @@ int mt76_create_page_pool(struct mt76_dev *dev, struct mt76_queue *q)
+ {
+ 	struct page_pool_params pp_params = {
+ 		.order = 0,
+-		.flags = PP_FLAG_PAGE_FRAG,
++		.flags = 0,
+ 		.nid = NUMA_NO_NODE,
+ 		.dev = dev->dma_dev,
+ 	};

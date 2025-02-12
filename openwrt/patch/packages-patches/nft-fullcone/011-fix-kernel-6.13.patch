@@ -1,5 +1,5 @@
---- a/src/nf_nat_fullcone.c
-+++ b/src/nf_nat_fullcone.c
+--- a/nf_nat_fullcone.c
++++ b/nf_nat_fullcone.c
 @@ -1122,7 +1122,7 @@
  	enum ip_conntrack_info ctinfo;
  	struct nf_conntrack_tuple *ct_tuple_origin;

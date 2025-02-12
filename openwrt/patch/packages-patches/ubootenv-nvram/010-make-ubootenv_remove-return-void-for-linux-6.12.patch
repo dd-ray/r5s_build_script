@@ -32,7 +32,7 @@
  
  static struct platform_driver ubootenv_driver = {
  	.probe = ubootenv_probe,
-+#if LINUX_VERSION_CODE < KERNEL_VERSION(6, 11, 0)
++#if LINUX_VERSION_CODE < KERNEL_VERSION(6, 11, 0) || LINUX_VERSION_CODE >= KERNEL_VERSION(6, 13, 0)
  	.remove = ubootenv_remove,
 +#else
 +	.remove_new = ubootenv_remove,
