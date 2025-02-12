@@ -38,6 +38,7 @@ sed -i '/ovs_kmod_openvswitch_depends/a\\t\ \ +kmod-sched-act-sample \\' feeds/p
 
 # rtpengine
 curl -s $mirror/openwrt/patch/packages-patches/rtpengine/900-fix-linux-6.12-11.5.1.18.patch > feeds/telephony/net/rtpengine/patches/900-fix-linux-6.12-11.5.1.18.patch
+curl -s $mirror/openwrt/patch/packages-patches/rtpengine/901-fix-linux-6.13-11.5.1.18.patch > feeds/telephony/net/rtpengine/patches/901-fix-linux-6.13-11.5.1.18.patch
 
 # ubootenv-nvram - 6.12
 mkdir -p package/kernel/ubootenv-nvram/patches
