@@ -25,10 +25,6 @@ curl -s $mirror/openwrt/patch/generic-24.10/0010-kernel-add-PREEMPT_RT-support-f
 # attr no-mold
 [ "$ENABLE_MOLD" = "y" ] && sed -i '/PKG_BUILD_PARALLEL/aPKG_BUILD_FLAGS:=no-mold' feeds/packages/utils/attr/Makefile
 
-# dwarves 1.25
-rm -rf tools/dwarves
-git clone https://$github/sbwml/tools_dwarves tools/dwarves
-
 # x86 - disable mitigations
 sed -i 's/noinitrd/noinitrd mitigations=off/g' target/linux/x86/image/grub-efi.cfg
 
@@ -198,52 +194,11 @@ git clone https://$github/sbwml/package_libs_nghttp3 package/libs/nghttp3
 rm -rf feeds/packages/libs/ngtcp2
 git clone https://$github/sbwml/package_libs_ngtcp2 package/libs/ngtcp2
 
-# curl - fix passwall `time_pretransfer` check
-rm -rf feeds/packages/net/curl
-git clone https://$github/sbwml/feeds_packages_net_curl feeds/packages/net/curl
-
-# Docker
-rm -rf feeds/luci/applications/luci-app-dockerman
-git clone https://$gitea/sbwml/luci-app-dockerman -b openwrt-23.05 feeds/luci/applications/luci-app-dockerman
-if [ "$version" = "dev" ] || [ "$version" = "rc2" ]; then
-    rm -rf feeds/packages/utils/{docker,dockerd,containerd,runc}
-    git clone https://$github/sbwml/packages_utils_docker feeds/packages/utils/docker
-    git clone https://$github/sbwml/packages_utils_dockerd feeds/packages/utils/dockerd
-    git clone https://$github/sbwml/packages_utils_containerd feeds/packages/utils/containerd
-    git clone https://$github/sbwml/packages_utils_runc feeds/packages/utils/runc
-fi
-sed -i '/sysctl.d/d' feeds/packages/utils/dockerd/Makefile
-pushd feeds/packages
-    curl -s $mirror/openwrt/patch/docker/0001-dockerd-fix-bridge-network.patch | patch -p1
-    curl -s $mirror/openwrt/patch/docker/0002-docker-add-buildkit-experimental-support.patch | patch -p1
-    curl -s $mirror/openwrt/patch/docker/0003-dockerd-disable-ip6tables-for-bridge-network-by-defa.patch | patch -p1
-popd
-
-# cgroupfs-mount
-# fix unmount hierarchical mount
-pushd feeds/packages
-    curl -s $mirror/openwrt/patch/cgroupfs-mount/0001-fix-cgroupfs-mount.patch | patch -p1
-popd
-# mount cgroup v2 hierarchy to /sys/fs/cgroup/cgroup2
-mkdir -p feeds/packages/utils/cgroupfs-mount/patches
-curl -s $mirror/openwrt/patch/cgroupfs-mount/900-mount-cgroup-v2-hierarchy-to-sys-fs-cgroup-cgroup2.patch > feeds/packages/utils/cgroupfs-mount/patches/900-mount-cgroup-v2-hierarchy-to-sys-fs-cgroup-cgroup2.patch
-curl -s $mirror/openwrt/patch/cgroupfs-mount/901-fix-cgroupfs-umount.patch > feeds/packages/utils/cgroupfs-mount/patches/901-fix-cgroupfs-umount.patch
-# docker systemd support
-curl -s $mirror/openwrt/patch/cgroupfs-mount/902-mount-sys-fs-cgroup-systemd-for-docker-systemd-suppo.patch > feeds/packages/utils/cgroupfs-mount/patches/902-mount-sys-fs-cgroup-systemd-for-docker-systemd-suppo.patch
-
-# procps-ng - top
-sed -i 's/enable-skill/enable-skill --disable-modern-top/g' feeds/packages/utils/procps-ng/Makefile
-
 # TTYD
 sed -i 's/services/system/g' feeds/luci/applications/luci-app-ttyd/root/usr/share/luci/menu.d/luci-app-ttyd.json
 sed -i '3 a\\t\t"order": 50,' feeds/luci/applications/luci-app-ttyd/root/usr/share/luci/menu.d/luci-app-ttyd.json
 sed -i 's/procd_set_param stdout 1/procd_set_param stdout 0/g' feeds/packages/utils/ttyd/files/ttyd.init
 sed -i 's/procd_set_param stderr 1/procd_set_param stderr 0/g' feeds/packages/utils/ttyd/files/ttyd.init
-
-# UPnP
-rm -rf feeds/{packages/net/miniupnpd,luci/applications/luci-app-upnp}
-git clone https://$gitea/sbwml/miniupnpd feeds/packages/net/miniupnpd -b v2.3.7
-git clone https://$gitea/sbwml/luci-app-upnp feeds/luci/applications/luci-app-upnp -b main
 
 # nginx - latest version
 rm -rf feeds/packages/net/nginx
@@ -299,15 +254,6 @@ curl -s $mirror/openwrt/patch/odhcpd/001-odhcpd-RFC-9096-compliance-openwrt-24.1
 pushd feeds/luci
     curl -s $mirror/openwrt/patch/odhcpd/luci-mod-network-add-option-for-ipv6-max-plt-vlt.patch | patch -p1
 popd
-
-# urngd - 2020-01-21
-rm -rf package/system/urngd
-git clone https://$github/sbwml/package_system_urngd package/system/urngd
-
-# zlib - 1.3
-ZLIB_VERSION=1.3.1
-ZLIB_HASH=38ef96b8dfe510d42707d9c781877914792541133e1870841463bfa73f883e32
-sed -ri "s/(PKG_VERSION:=)[^\"]*/\1$ZLIB_VERSION/;s/(PKG_HASH:=)[^\"]*/\1$ZLIB_HASH/" package/libs/zlib/Makefile
 
 # profile
 sed -i 's#\\u@\\h:\\w\\\$#\\[\\e[32;1m\\][\\u@\\h\\[\\e[0m\\] \\[\\033[01;34m\\]\\W\\[\\033[00m\\]\\[\\e[32;1m\\]]\\[\\e[0m\\]\\\$#g' package/base-files/files/etc/profile
