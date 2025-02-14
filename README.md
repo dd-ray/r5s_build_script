@@ -70,14 +70,6 @@ export ENABLE_BPF=y
 export ENABLE_LRNG=y
 ```
 
-### 启用 [Glibc](https://www.gnu.org/software/libc/) 库构建 （实验性）
-##### 启用 glibc 库进行构建时，构建的固件将会同时兼容 musl/glibc 的预构建二进制程序，但缺失 `opkg install` 安装源支持
-##### 只需在构建固件前执行以下命令即可启用 glibc 构建
-
-```
-export ENABLE_GLIBC=y
-```
-
 ### 启用本地 Kernel Modules 安装源 （For developers）
 ##### 启用该标志时，将会拷贝全部 target packages 到 rootfs 并替换 openwrt_core 源为本地方式，以供离线 `opkg install kmod-xxx` 安装操作
 ##### 这会增加固件文件大小（大约 70MB），对项目内核版本、模块、补丁 有修改的需求时，该功能可能会有用

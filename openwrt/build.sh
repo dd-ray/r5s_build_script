@@ -121,7 +121,6 @@ fi
 export \
     ENABLE_BPF=$ENABLE_BPF \
     ENABLE_DPDK=$ENABLE_DPDK \
-    ENABLE_GLIBC=$ENABLE_GLIBC \
     ENABLE_LRNG=$ENABLE_LRNG \
     KERNEL_CLANG_LTO=$KERNEL_CLANG_LTO
 
@@ -150,7 +149,6 @@ echo -e "${GREEN_COLOR}Kernel: $kmodpkg_name ${RES}"
 echo -e "${GREEN_COLOR}Date: $CURRENT_DATE${RES}\r\n"
 echo -e "${GREEN_COLOR}GCC VERSION: $gcc_version${RES}"
 [ -n "$LAN" ] && echo -e "${GREEN_COLOR}LAN: $LAN${RES}" || echo -e "${GREEN_COLOR}LAN: 10.0.0.1${RES}"
-[ "$ENABLE_GLIBC" = "y" ] && echo -e "${GREEN_COLOR}Standard C Library:${RES} ${BLUE_COLOR}glibc${RES}" || echo -e "${GREEN_COLOR}Standard C Library:${RES} ${BLUE_COLOR}musl${RES}"
 [ "$ENABLE_OTA" = "y" ] && echo -e "${GREEN_COLOR}ENABLE_OTA: true${RES}" || echo -e "${GREEN_COLOR}ENABLE_OTA:${RES} ${YELLOW_COLOR}false${RES}"
 [ "$ENABLE_DPDK" = "y" ] && echo -e "${GREEN_COLOR}ENABLE_DPDK: true${RES}" || echo -e "${GREEN_COLOR}ENABLE_DPDK:${RES} ${YELLOW_COLOR}false${RES}"
 [ "$ENABLE_MOLD" = "y" ] && echo -e "${GREEN_COLOR}ENABLE_MOLD: true${RES}" || echo -e "${GREEN_COLOR}ENABLE_MOLD:${RES} ${YELLOW_COLOR}false${RES}"
@@ -290,12 +288,6 @@ fi
 export ENABLE_LTO=$ENABLE_LTO
 [ "$ENABLE_LTO" = "y" ] && curl -s $mirror/openwrt/generic/config-lto >> .config
 
-# glibc
-[ "$ENABLE_GLIBC" = "y" ] && {
-    curl -s $mirror/openwrt/generic/config-glibc >> .config
-    sed -i '/NaiveProxy/d' .config
-}
-
 # DPDK
 [ "$ENABLE_DPDK" = "y" ] && {
     echo 'CONFIG_PACKAGE_dpdk-tools=y' >> .config
@@ -361,7 +353,7 @@ fi
 
 # Toolchain Cache
 if [ "$BUILD_FAST" = "y" ]; then
-    [ "$ENABLE_GLIBC" = "y" ] && LIBC=glibc || LIBC=musl
+    LIBC=musl
     [ "$isCN" = "CN" ] && github_proxy="ghp.ci/" || github_proxy=""
     echo -e "\n${GREEN_COLOR}Download Toolchain ...${RES}"
     PLATFORM_ID=""
@@ -393,7 +385,7 @@ if [ "$BUILD_TOOLCHAIN" = "y" ]; then
     echo -e "\r\n${GREEN_COLOR}Building Toolchain ...${RES}\r\n"
     make -j$cores toolchain/compile || make -j$cores toolchain/compile V=s || exit 1
     mkdir -p toolchain-cache
-    [ "$ENABLE_GLIBC" = "y" ] && LIBC=glibc || LIBC=musl
+    LIBC=musl
     tar -I "zstd -19 -T$(nproc --all)" -cf toolchain-cache/toolchain_${LIBC}_${toolchain_arch}_gcc-${gcc_version}${tools_suffix}.tar.zst ./{build_dir,dl,staging_dir,tmp}
     echo -e "\n${GREEN_COLOR} Build success! ${RES}"
     exit 0
