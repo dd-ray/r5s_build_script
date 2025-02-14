@@ -8,7 +8,7 @@ git clone https://$github/sbwml/autocore-arm -b openwrt-24.10 package/system/aut
 # rockchip - target - r4s/r5s only
 rm -rf target/linux/rockchip
 #git clone https://nanopi:nanopi@$gitea/sbwml/target_linux_rockchip-6.x target/linux/rockchip -b openwrt-24.10
-git clone https://$github/jianyun8023/target_linux_rockchip-6.x target/linux/rockchip -b 6.13
+git clone https://$github/dd-ray/target_linux_rockchip-6.x target/linux/rockchip -b openwrt-24.10
 
 # bpf-headers - 6.13
 sed -ri "s/(PKG_PATCHVER:=)[^\"]*/\16.13/" package/kernel/bpf-headers/Makefile
@@ -33,7 +33,7 @@ curl -s $mirror/openwrt/patch/openwrt-6.x/x86/base-files/etc/board.d/02_network 
 
 # armsr/armv8
 rm -rf target/linux/armsr
-git clone https://nanopi:nanopi@$gitea/sbwml/target_linux_armsr target/linux/armsr -b main
+git clone https://$github/dd-ray/target_linux_armsr target/linux/armsr -b main
 
 # kernel - 6.13
 curl -s $mirror/tags/kernel-6.13 > include/kernel-6.13
@@ -47,9 +47,9 @@ curl -s $mirror/openwrt/patch/kernel-6.13/openwrt/linux-6.13-target-linux-generi
 # Fix the loss of module.symvers
 curl -s $mirror/openwrt/patch/kernel-6.13/openwrt/fix-openwrt-kmod-module-symvers.patch | patch -p1
 local_kernel_version=$(sed -n 's/^LINUX_KERNEL_HASH-\([0-9.]\+\) = .*/\1/p' include/kernel-6.13)
-release_kernel_version=$(curl -sL $mirror/tags/kernel-6.13 | sed -n 's/^LINUX_KERNEL_HASH-\([0-9.]\+\) = .*/\1/p')
+release_kernel_version=$(curl -sL https://raw.githubusercontent.com/dd-ray/r5s_build_script/main/tags/kernel-6.13 | sed -n 's/^LINUX_KERNEL_HASH-\([0-9.]\+\) = .*/\1/p')
 if [ "$local_kernel_version" = "$release_kernel_version" ] && [ -z "$git_password" ] && [ "$(whoami)" != "sbwml" ]; then
-    git clone https://$github/jianyun8023/target_linux_generic -b 6.13 target/linux/generic-6.13 --depth=1
+    git clone https://$github/dd-ray/target_linux_generic -b openwrt-24.10 target/linux/generic-6.13 --depth=1
 else
     if [ "$(whoami)" = "runner" ]; then
         git_name=private
@@ -180,7 +180,7 @@ curl -s $mirror/openwrt/patch/openwrt-6.x/500-world-regd-5GHz.patch > package/fi
 
 # mac80211 - 6.11
 rm -rf package/kernel/mac80211
-git clone https://$gitea/sbwml/package_kernel_mac80211 package/kernel/mac80211 -b openwrt-24.10
+git clone https://$github/dd-ray/package_kernel_mac80211 package/kernel/mac80211 -b openwrt-24.10
 
 # ath10k-ct
 rm -rf package/kernel/ath10k-ct
