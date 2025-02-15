@@ -55,14 +55,12 @@ sed -i 's/0666/0644/g;s/0777/0755/g' feeds/packages/net/samba4/files/smb.conf.te
 # rk3568 bind cpus
 [ "$platform" = "rk3568" ] && sed -i 's#/usr/sbin/smbd -F#/usr/bin/taskset -c 1,0 /usr/sbin/smbd -F#' feeds/packages/net/samba4/files/samba.init
 
-
-
-# nethogs
-git clone https://github.com/sbwml/package_new_nethogs package/new/nethogs
-
 # Theme
 git clone --depth 1 https://$github/jerrykuku/luci-theme-argon package/new/luci-theme-argon
 git clone --depth 1 https://$github/jerrykuku/luci-app-argon-config package/new/luci-app-argon-config
+
+sed -i '/<a href="https:\/\/github.com\/jerrykuku\/luci-theme-argon" target="_blank">ArgonTheme <%# vPKG_VERSION %><\/a> \//d' package/new/luci-theme-argon/luasrc/view/themes/argon/footer_login.htm
+sed -i '/<a href="https:\/\/github.com\/jerrykuku\/luci-theme-argon" target="_blank">ArgonTheme <%# vPKG_VERSION %><\/a> \//d' package/new/luci-theme-argon/luasrc/view/themes/argon/footer.htm
 
 # Mosdns
 git clone https://$github/sbwml/luci-app-mosdns -b v5 package/new/mosdns
