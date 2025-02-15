@@ -54,12 +54,12 @@ popd
 curl -s $mirror/openwrt/patch/packages-patches/xtables-addons/301-fix-build-with-linux-6.12.patch > feeds/packages/net/xtables-addons/patches/301-fix-build-with-linux-6.12.patch
 curl -s $mirror/openwrt/patch/packages-patches/xtables-addons/302-fix-build-for-linux-6.12rc2.patch > feeds/packages/net/xtables-addons/patches/302-fix-build-for-linux-6.12rc2.patch
 
-## telephony
-#pushd feeds/telephony
-#  # dahdi-linux
-#  rm -rf libs/dahdi-linux
-#  git clone https://$github/sbwml/feeds_telephony_libs_dahdi-linux libs/dahdi-linux
-#popd
+# telephony
+pushd feeds/telephony
+  # dahdi-linux
+  rm -rf libs/dahdi-linux
+  git clone https://$github/sbwml/feeds_telephony_libs_dahdi-linux libs/dahdi-linux
+popd
 
 # routing - batman-adv fix build with linux-6.12
 curl -s $mirror/openwrt/patch/packages-patches/batman-adv/901-fix-linux-6.12rc2-builds.patch > feeds/routing/batman-adv/patches/901-fix-linux-6.12rc2-builds.patch
