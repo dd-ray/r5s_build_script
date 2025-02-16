@@ -1,6 +1,6 @@
 --- a/nf_nat_fullcone.c
 +++ b/nf_nat_fullcone.c
-@@ -1122,7 +1122,7 @@
+@@ -1130,7 +1130,7 @@ static unsigned int nf_nat_handle_prerouting(u8 nfproto, struct sk_buff *skb, un
  	enum ip_conntrack_info ctinfo;
  	struct nf_conntrack_tuple *ct_tuple_origin;
  
@@ -9,7 +9,7 @@
  	uint8_t protonum;
  
  /* NFPROTO specific def */
-@@ -1143,7 +1143,6 @@
+@@ -1151,7 +1151,6 @@ static unsigned int nf_nat_handle_prerouting(u8 nfproto, struct sk_buff *skb, un
  	ip_6 = NULL;
  	/* NFPROTO specific init end */
  
@@ -17,7 +17,7 @@
  	ret = NFT_CONTINUE;	// BUG: use XT_CONTINUE for Xtables
  
  	ct = nf_ct_get(skb, &ctinfo);
-@@ -1257,9 +1256,9 @@
+@@ -1265,9 +1264,9 @@ static unsigned int nf_nat_handle_postrouting(u8 nfproto, struct sk_buff *skb, u
  	enum ip_conntrack_info ctinfo;
  	struct nf_conn_nat *nat;
  	struct nf_conntrack_tuple *ct_tuple, *ct_tuple_origin;
@@ -29,23 +29,3 @@
  
  	/* NFPROTO specific def */
  	struct nat_mapping *mapping, *src_mapping;
---- a/nft_ext_fullcone.c
-+++ b/nft_ext_fullcone.c
-@@ -121,7 +121,7 @@
- }
- #endif
- 
--static int nft_fullcone_validate(const struct nft_ctx *ctx, const struct nft_expr *expr, const struct nft_data **data)
-+static int nft_fullcone_validate(const struct nft_ctx *ctx, const struct nft_expr *expr)
- {
- 	int err;
- 
-@@ -179,7 +179,7 @@
- 	return err;
- }
- 
--static int nft_fullcone_dump(struct sk_buff *skb, const struct nft_expr *expr)
-+static int nft_fullcone_dump(struct sk_buff *skb, const struct nft_expr *expr, bool reset)
- {
- 	const struct nft_fullcone *priv = nft_expr_priv(expr);
- 
