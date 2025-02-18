@@ -73,7 +73,7 @@ if curl --help | grep progress-bar >/dev/null 2>&1; then
     CURL_BAR="--progress-bar";
 fi
 
-if [ -z "$1" ] || [ "$2" != "nanopi-r4s" -a "$2" != "nanopi-r5s" -a "$2" != "x86_64" -a "$2" != "netgear_r8500" -a "$2" != "armv8" ]; then
+if [ -z "$1" ] || [ "$2" != "nanopi-r4s" -a "$2" != "nanopi-r5s" -a "$2" != "x86_64" -a "$2" != "cudy_tr3000" -a "$2" != "armv8" ]; then
     echo -e "\n${RED_COLOR}Building type not specified.${RES}\n"
     echo -e "Usage:\n"
     echo -e "nanopi-r4s releases: ${GREEN_COLOR}bash build.sh rc2 nanopi-r4s${RES}"
@@ -82,8 +82,8 @@ if [ -z "$1" ] || [ "$2" != "nanopi-r4s" -a "$2" != "nanopi-r5s" -a "$2" != "x86
     echo -e "nanopi-r5s snapshots: ${GREEN_COLOR}bash build.sh dev nanopi-r5s${RES}"
     echo -e "x86_64 releases: ${GREEN_COLOR}bash build.sh rc2 x86_64${RES}"
     echo -e "x86_64 snapshots: ${GREEN_COLOR}bash build.sh dev x86_64${RES}"
-    echo -e "netgear-r8500 releases: ${GREEN_COLOR}bash build.sh rc2 netgear_r8500${RES}"
-    echo -e "netgear-r8500 snapshots: ${GREEN_COLOR}bash build.sh dev netgear_r8500${RES}"
+    echo -e "cudy_tr3000-v1 releases: ${GREEN_COLOR}bash build.sh rc2 cudy_tr3000${RES}"
+    echo -e "cudy_tr3000-v1 snapshots: ${GREEN_COLOR}bash build.sh dev cudy_tr3000${RES}"
     echo -e "armsr-armv8 releases: ${GREEN_COLOR}bash build.sh rc2 armv8${RES}"
     echo -e "armsr-armv8 snapshots: ${GREEN_COLOR}bash build.sh dev armv8${RES}\n"
     exit 1
@@ -106,7 +106,7 @@ fi
 [ "$2" = "armv8" ] && export platform="armv8" toolchain_arch="aarch64_generic"
 [ "$2" = "nanopi-r4s" ] && export platform="rk3399" toolchain_arch="aarch64_generic"
 [ "$2" = "nanopi-r5s" ] && export platform="rk3568" toolchain_arch="aarch64_generic"
-[ "$2" = "netgear_r8500" ] && export platform="bcm53xx" toolchain_arch="arm_cortex-a9"
+[ "$2" = "cudy_tr3000" ] && export platform="mediatek" toolchain_arch="aarch64_cortex-a53"
 [ "$2" = "x86_64" ] && export platform="x86_64" toolchain_arch="x86_64"
 
 # gcc14 & 15
@@ -135,8 +135,8 @@ if [ "$platform" = "x86_64" ]; then
 elif [ "$platform" = "armv8" ]; then
     echo -e "${GREEN_COLOR}Model: armsr/armv8${RES}"
     [ "$1" = "rc2" ] && model="armv8"
-elif [ "$platform" = "bcm53xx" ]; then
-    echo -e "${GREEN_COLOR}Model: netgear_r8500${RES}"
+elif [ "$platform" = "mediatek" ]; then
+    echo -e "${GREEN_COLOR}Model: cudy_tr3000${RES}"
     [ "$LAN" = "10.0.0.1" ] && export LAN="192.168.1.1"
 elif [ "$platform" = "rk3568" ]; then
     echo -e "${GREEN_COLOR}Model: nanopi-r5s/r5c${RES}"
@@ -258,12 +258,8 @@ rm -rf ../master
 # Load devices Config
 if [ "$platform" = "x86_64" ]; then
     curl -s $mirror/openwrt/24-config-musl-x86 > .config
-elif [ "$platform" = "bcm53xx" ]; then
-    if [ "$MINIMAL_BUILD" = "y" ]; then
-        curl -s $mirror/openwrt/24-config-musl-r8500-minimal > .config
-    else
-        curl -s $mirror/openwrt/24-config-musl-r8500 > .config
-    fi
+elif [ "$platform" = "mediatek" ]; then
+    curl -s $mirror/openwrt/24-config-musl-tr3000 > .config
     sed -i '1i\# CONFIG_PACKAGE_kselftests-bpf is not set\n# CONFIG_PACKAGE_perf is not set\n' .config
 elif [ "$platform" = "rk3568" ]; then
     curl -s $mirror/openwrt/24-config-musl-r5s > .config
@@ -530,14 +526,14 @@ elif [ "$platform" = "bcm53xx" ]; then
             OTA_URL="https://github.com/sbwml/builder/releases/download"
         fi
         VERSION=$(sed 's/v//g' version.txt)
-        SHA256=$(sha256sum bin/targets/bcm53xx/generic/*-bcm53xx-generic-netgear_r8500-squashfs.chk | awk '{print $1}')
+        SHA256=$(sha256sum bin/targets/mediatek/generic/*-mediatek-generic-cudy_tr3000-squashfs.chk | awk '{print $1}')
         cat > ota/fw.json <<EOF
 {
   "netgear,r8500": [
     {
       "build_date": "$CURRENT_DATE",
       "sha256sum": "$SHA256",
-      "url": "$OTA_URL/v$VERSION/openwrt-$VERSION-bcm53xx-generic-netgear_r8500-squashfs.chk"
+      "url": "$OTA_URL/v$VERSION/openwrt-$VERSION-mediatek-generic-cudy_tr3000-squashfs.chk"
     }
   ]
 }
