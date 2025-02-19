@@ -30,6 +30,10 @@ curl -s $mirror/openwrt/patch/openwrt-6.x/x86/base-files/etc/board.d/02_network 
 #git clone https://nanopi:nanopi@$gitea/sbwml/brcmfmac-firmware-4366c-pcie package/firmware/brcmfmac-firmware-4366c-pcie
 #git clone https://nanopi:nanopi@$gitea/sbwml/brcmfmac-firmware-4366b-pcie package/firmware/brcmfmac-firmware-4366b-pcie
 
+# mediatek - target
+rm -rf target/linux/mediatek
+git clone https://$github/dd-ray/target_linux_mediatek-6.x target/linux/mediatek -b openwrt-24.10
+
 # armsr/armv8
 rm -rf target/linux/armsr
 git clone https://$github/dd-ray/target_linux_armsr target/linux/armsr -b main
