@@ -10,3 +10,6 @@
 /usr/bin/xray-plugin
 /usr/sbin/haproxy
 /usr/bin/mihomo
+/usr/bin/rclone
+/usr/bin/yq
+/usr/bin/speedtest
