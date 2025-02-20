@@ -9,3 +9,4 @@
 /usr/bin/xray
 /usr/bin/xray-plugin
 /usr/sbin/haproxy
+/usr/bin/mihomo
