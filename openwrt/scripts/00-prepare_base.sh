@@ -80,6 +80,9 @@ git clone https://$github/sbwml/package_utils_util-linux -b openwrt-24.10 packag
 # Shortcut Forwarding Engine
 git clone https://$github/dd-ray/shortcut-fe package/new/shortcut-fe
 
+# upx compress
+curl -s $mirror/openwrt/generic/upx_list.txt > upx_list.txt
+
 # Patch FireWall 4
 if [ "$version" = "dev" ] || [ "$version" = "rc2" ]; then
     # firewall4
